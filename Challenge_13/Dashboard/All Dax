@@ -1,0 +1,93 @@
+Total Trips = COUNTA(fact_trips[trip_id])
+
+Total Revenue = SUM(fact_trips[fare_amount])
+
+Total Passengers = SUM(fact_passenger_summary[total_passengers])
+
+New Passengers By City = SUM(fact_passenger_summary[new_passengers])
+
+Avg Trip cost = AVERAGE(fact_trips[fare_amount])
+
+Avg Passenger Rating = AVERAGE(fact_trips[passenger_rating])
+
+Avg fare per km = DIVIDE([Avg Trip cost],[Avg distance],0)
+
+Avg distance = AVERAGE(fact_trips[distance_travelled_km])
+
+Avg Driver Rating = 
+AVERAGEX(
+    FILTER(fact_trips, NOT(ISBLANK(fact_trips[driver_rating]))),
+    fact_trips[driver_rating]
+)
+
+Avg Target Rating = AVERAGE(city_target_passenger_rating[target_avg_passenger_rating])
+
+Max Rating = 10
+Min Rating = 0
+Rating Difference = 
+[Avg Passenger Rating] - [Avg Driver Rating]
+
+Repeat Passenger Rate = 
+DIVIDE(
+    SUM('fact_passenger_summary'[repeat_passengers]),
+    SUM('fact_passenger_summary'[total_passengers]),
+    0
+) * 100
+
+Rating Difference = 
+[Avg Passenger Rating] - [Avg Driver Rating]
+
+Repeat Passenger Rate = 
+DIVIDE(
+    SUM('fact_passenger_summary'[repeat_passengers]),
+    SUM('fact_passenger_summary'[total_passengers]),
+    0
+) * 100
+
+Target New Passengers = SUM(monthly_target_new_passengers[target_new_passengers])
+
+Target Trips = SUM(monthly_target_trips[total_target_trips])
+
+Average Passenger Rating by City = 
+AVERAGE(fact_trips[passenger_rating])
+
+Average Trips per Passenger = 
+DIVIDE(
+    COUNT(fact_trips[trip_id]), 
+    SUM(fact_passenger_summary[total_passengers]), 
+    0
+)
+
+New vs Repeat Passengers Ratio = 
+DIVIDE(
+    SUM(fact_passenger_summary[new_passengers]), 
+    SUM(fact_passenger_summary[repeat_passengers]), 
+    0
+)
+
+Total Passengers By Citys = SUM(fact_passenger_summary[total_passengers])
+
+Total Trips by City = 
+CALCULATE(
+    COUNT(fact_trips[trip_id]), 
+    ALLEXCEPT(dim_city, dim_city[city_name])
+)
+
+Rating Gap = 
+AVERAGE(city_target_passenger_rating[target_avg_passenger_rating]) - 
+AVERAGE(fact_trips[passenger_rating])
+
+Repeat Rate = DIVIDE(SUM(fact_passenger_summary[repeat_passengers]), SUM(fact_passenger_summary[total_passengers])) * 100
+
+Weekday = 
+CALCULATE(
+    COUNT(fact_trips[Day Type]),
+    fact_trips[Day Type] = "Weekday"
+)
+
+Weekend = 
+CALCULATE(
+    COUNT(fact_trips[Day Type]),
+    fact_trips[Day Type] = "Weekend"
+)
+
