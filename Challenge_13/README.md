@@ -447,457 +447,231 @@ LIMIT 1000;
 - **Interactivity**:
    - Filters for city, month, and passenger type.
    - Dynamic slicers for targets vs. actuals.
+   - 
 
----
-# GoodCabs Analysis
+# Good Cabs Performance Analysis Dashboard
 
-## Domain: Transportation and Mobility  
-**Function**: Operation  
-**Resume Project Challenge 13 by CodeBasics**
+This is a comprehensive performance analysis dashboard for a ride-hailing business, which helps in evaluating various performance metrics, including trip data, ratings, city-wise analysis, passenger behavior, monthly growth, and comparisons between target and actual performance.
 
----
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Pages Overview](#pages-overview)
+  - [Home](#home)
+  - [Overview](#overview)
+  - [City](#city)
+  - [Comparison](#comparison)
+  - [Behavior](#behavior)
+  - [Monthly](#monthly)
+- [KPIs and Metrics](#kpis-and-metrics)
+- [Visuals](#visuals)
+- [Footer](#footer)
 
-## Problem Statement
+## Project Overview
 
-**Goodcabs**, a cab service company established two years ago, has gained a strong foothold in the Indian market by focusing on tier-2 cities. Unlike other cab service providers, Goodcabs is committed to supporting local drivers, helping them make a sustainable living in their hometowns while ensuring excellent service to passengers. With operations in ten tier-2 cities across India, Goodcabs has set ambitious performance targets for 2024 to drive growth and improve passenger satisfaction.
+The **Good Cabs Performance Analysis Dashboard** is built using Power BI to track and analyze various key performance indicators (KPIs) related to cabs and their performance. The dashboard provides insights into trip data, performance by city, comparison of target versus actual performance, passenger behavior, and monthly trends.
 
-As part of this initiative, the Goodcabs management team aims to assess the company’s performance across key metrics, including trip volume, passenger satisfaction, repeat passenger rate, trip distribution, and the balance between new and repeat passengers.
+## Pages Overview
 
-However, the Chief of Operations, Bruce Haryali, wanted this immediately but the analytics manager Tony is engaged on another critical project. Tony decided to give this work to Peter Pandey who is the curious data analyst of Goodcabs. Since these insights will be directly reported to the Chief of Operations, Tony also provided some notes to Peter to support his work.
+The dashboard consists of six main pages:
 
-**Task:**
+### 1. **Home**
+   - **Subtitle**: Welcome to the Good Cabs Performance Dashboard
+   - **Description**: The Home page provides a summary of the entire dashboard with key metrics at a glance. This page includes navigation links to all other pages, ensuring easy access to different insights.
 
-Imagine yourself as Peter Pandey and perform the following task to keep up the trust with your manager Tony Sharma.
-
-1. Go through the metadata and analyse the datasets thoroughly. This is the most fundamental step.
-
-2. Begin your analysis by referring to the ‘primary_and_secondary_questions.pdf’. You can use any tool of your choice (Python, SQL, PowerBI, Tableau, Excel) to analyse and answer these questions. More instructions are provided in this document.
-
-3. Design a dashboard with your metrics and analysis. The dashboard should be self-explanatory and easy to understand.
-
-4. Check “ad-hoc-requests.pdf” - this document includes important business questions, requiring SQL-based report generation.
-
-5. You need to present this to the Chief of Operations - hence you need to create a convincing presentation with actionable insights.
-
-**Additional Considerations:**
-
-6. You can add more research questions and answer them in your presentation that suits your recommendations.
-
-7. Be creative with your presentation, audio/video presentation will have more weightage.
-
-**Note:**
-
-1. We recommend you create a video presentation of ideally 15 minutes or less for the business stakeholders. Additionally, make a LinkedIn post that includes relevant links, your video presentation, and a reflection on your experience while working on this challenge.
-
-2. You can check out this example presentation to gain some inspiration: Sample Presentation Link
-
-3. Please see this detailed evaluation criteria which is provided in the document "evaluation criteria".
-
-4. After completing your LinkedIn post, please submit the link in the input box provided.
-
-
-Given the extensive information provided, here’s how you can structure your analysis and presentation:
+Here is a comprehensive step-by-step guide to designing a **Power BI Dashboard** for the Goodcabs project. Each step is broken down into **pages**, **KPIs**, **DAX formulas**, **visuals**, **custom columns** (if necessary), and overall design suggestions.
 
 ---
 
-### **Task 1: Understanding the Problem and Metadata**
-1. **Domain Context**: The problem is set in the transportation and mobility sector focusing on operational metrics for Goodcabs, a cab service targeting Tier-2 cities in India.
-2. **Objective**:
-   - Analyze operational data to provide actionable insights.
-   - Build a self-explanatory dashboard.
-   - Prepare a compelling presentation for the Chief of Operations.
-3. **Data Overview**:
-   - **Trips Data**: Contains details on cities, dates, passengers, and trip specifics.
-   - **Targets Data**: Monthly and city-specific targets for new passengers, trips, and ratings.
+## **Page 1: Overview Dashboard**
+### **Title**: *Company Performance Overview*  
+**Subtitle**: *Summary of Key Metrics and Insights*
+
+#### **Keywords**: Overview, Summary, KPIs, Growth, Performance  
+(Use these keywords to create navigation buttons to other pages.)
 
 ---
 
-### **Task 2: Key Queries and Insights**
-#### 1. **Top and Bottom Performing Cities**
-- Top 3 Performing Cities by Total Trips
-- SQL Query: 
-```sql
-SELECT 
- dim_city.city_name,
-        
- SUM(fact_passenger_summary.total_passengers) AS total_trips
-FROM 
- fact_passenger_summary
-JOIN 
- dim_city
-    ON fact_passenger_summary.city_id = dim_city.city_id
-GROUP BY 
- dim_city.city_name
-ORDER BY 
- total_trips DESC
-LIMIT 3;
-```
-**Output** 
-| City_Name   | Total_Trips |
-|-------------|-------------|
-| Jaipur      | 55538       |
-| Kochi       | 34042       | 
-| Lucknow     | 25857       | 
-
-- Bottom 3 Performing Cities by Total Trips
-- SQL Query
-
-```sql
-SELECT 
- dim_city.city_name,
-        
- SUM(fact_passenger_summary.total_passengers) AS total_trips
-FROM 
- fact_passenger_summary
-JOIN 
- dim_city
-    ON fact_passenger_summary.city_id = dim_city.city_id
-GROUP BY 
- dim_city.city_name
-ORDER BY 
- total_trips ASC
-LIMIT 3;
-```
-**Output** 
-| City_Name   | Total_Trips |
-|-------------|-------------|
-| Coimbatore  | 11065       |
-| Mysore      | 13158       |
-| Vadodara    | 14473       |
--  Alternative  SQL Query
-```sql
-(SELECT 
- city_name,
-        
- SUM(fact_passenger_summary.total_passengers) AS total_trips,
-        
- 'Top 3' AS performance
-FROM 
- fact_passenger_summary
-JOIN 
- dim_city
-    ON fact_passenger_summary.city_id = dim_city.city_id
-GROUP BY 
- dim_city.city_name
-ORDER BY 
- total_trips DESC
-LIMIT 3)
-
-UNION ALL
-
-(SELECT 
- city_name,
-        
- SUM(fact_passenger_summary.total_passengers) AS total_trips,
-        
- 'Bottom 3' AS performance
-FROM 
- fact_passenger_summary
-JOIN 
- dim_city
-    ON fact_passenger_summary.city_id = dim_city.city_id
-GROUP BY 
- dim_city.city_name
-ORDER BY 
- total_trips ASC
-LIMIT 3);
-```
-**Output**  
-| City_Name   | Total_Trips | Performance |
-|-------------|-------------|-------------|
-| Jaipur      | 55538       | Top 3       |
-| Kochi       | 34042       | Top 3       |
-| Lucknow     | 25857       | Top 3       |
-| Coimbatore  | 11065       | Bottom 3    |
-| Mysore      | 13158       | Bottom 3    |
-| Vadodara    | 14473       | Bottom 3    |
-
-
-### 2. Average Fare per Trip by City
-```sql
-SELECT 
-    dim_city.city_name,
-    AVG(fact_trips.fare_amount) AS average_fare,
-    AVG(fact_trips.distance_travelled_km) AS average_trip_distance
-FROM 
-    fact_trips
-JOIN 
-    dim_city ON fact_trips.city_id = dim_city.city_id
-GROUP BY 
-    dim_city.city_name;
-```
-**Output**  
-| City_Name     | avg_Fare  | avg_Trip_Distance |
-|---------------|-----------|-------------------|
-| Chandigarh    | 283.6870  | 23.5187           |
-| Coimbatore    | 166.9822  | 14.9792           |
-| Indore        | 179.8386  | 16.5025           |
-| Jaipur        | 483.9181  | 30.0231           |
-| Kochi         | 335.2451  | 24.0655           |
-| Lucknow       | 147.1804  | 12.5130           |
-| Mysore        | 249.7072  | 16.4969           |
-| Surat         | 117.2729  | 10.9972           |
-| Vadodara      | 118.5662  | 11.5177           |
-| Visakhapatnam | 282.6723  | 22.5539           |
----
-
-### 3. Average Ratings by City and Passenger Type
-```sql
-SELECT 
-    dim_city.city_name,
-    fact_trips.passenger_type,
-    AVG(fact_trips.passenger_rating) AS avg_passenger_rating,
-    AVG(fact_trips.driver_rating) AS avg_driver_rating
-FROM 
-    fact_trips
-JOIN 
-    dim_city ON fact_trips.city_id = dim_city.city_id
-GROUP BY 
-    dim_city.city_name, fact_trips.passenger_type;
-```
-**Output**  
-| City_Name     | Passenger_Type | avg_Passenger_Rating | avg_Driver_Rating |
-|---------------|----------------|----------------------|-------------------|
-| Chandigarh    | new            | 8.4892               | 7.9921            |
-| Chandigarh    | repeated       | 7.4938               | 7.4728            |
-| Coimbatore    | new            | 8.4858               | 7.9906            |
-| Coimbatore    | repeated       | 7.4755               | 7.4808            |
-| Indore        | new            | 8.4858               | 7.9708            |
-| Indore        | repeated       | 7.4740               | 7.4774            |
-| Jaipur        | new            | 8.9850               | 8.9882            |
-| Jaipur        | repeated       | 7.9910               | 8.9848            |
-| Kochi         | new            | 8.9874               | 8.9853            |
-| Kochi         | repeated       | 8.0037               | 8.9898            |
-| Lucknow       | new            | 7.9774               | 6.9904            |
-| Lucknow       | repeated       | 5.9857               | 6.4917            |
-| Mysore        | new            | 8.9830               | 8.9829            |
-| Mysore        | repeated       | 7.9785               | 8.9658            |
-| Surat         | new            | 7.9842               | 6.9949            |
-| Surat         | repeated       | 5.9955               | 6.4794            |
-| Vadodara      | new            | 7.9793               | 7.0041            |
-| Vadodara      | repeated       | 5.9786               | 6.4811            |
-| Visakhapatnam | new            | 8.9762               | 8.9800            |
-| Visakhapatnam | repeated       | 7.9896               | 8.9927            |
+### **KPIs**:
+1. **Total Trips** (Aggregated across all cities and months).  
+   **DAX**:  
+   ```DAX
+   Total Trips = SUM(fact_trips[trip_id])
+   ```
+2. **Total Passengers** (New + Repeat).  
+   **DAX**:  
+   ```DAX
+   Total Passengers = SUM(fact_passenger_summary[total_passengers])
+   ```
+3. **Average Passenger Rating**.  
+   **DAX**:  
+   ```DAX
+   Avg Passenger Rating = AVERAGE(fact_trips[passenger_rating])
+   ```
+4. **Revenue Generated** (if a revenue column exists; calculated from `fare_amount`).  
+   **DAX**:  
+   ```DAX
+   Total Revenue = SUM(fact_trips[fare_amount])
+   ```
 
 ---
 
-### 4. Peak and Low Demand Months by City
-
-**Peak Demand Month by City**:
-```sql
-SELECT 
-    dim_city.city_name,
-    DATE_FORMAT(fact_passenger_summary.month, '%Y-%m') AS month,
-    SUM(fact_passenger_summary.total_passengers) AS total_trips
-FROM 
-    fact_passenger_summary
-JOIN 
-    dim_city ON fact_passenger_summary.city_id = dim_city.city_id
-GROUP BY 
-    dim_city.city_name, month
-ORDER BY 
-    total_trips DESC
-LIMIT 1;
-```
-**Output**  
-| City         | Date       | Total_trips  |
-|--------------|------------|---------|
-| Jaipur       | 2024-02    | 12450   |
-
-**Low Demand Month by City**:
-```sql
-SELECT 
-    dim_city.city_name,
-    DATE_FORMAT(fact_passenger_summary.month, '%Y-%m') AS month,
-    SUM(fact_passenger_summary.total_passengers) AS total_trips
-FROM 
-    fact_passenger_summary
-JOIN 
-    dim_city ON fact_passenger_summary.city_id = dim_city.city_id
-GROUP BY 
-    dim_city.city_name, month
-ORDER BY 
-    total_trips ASC
-LIMIT 1;
-```
-**Output**  
-| City        | Date       | Total_trips |
-|-------------|------------|--------|
-| Coimbatore  | 2024-05    | 1543   |
-**Alternative (Using ROW_NUMBER for Peak and Low)**:
-```sql
-WITH RankedTrips AS (
-    SELECT 
-        dim_city.city_name,
-        DATE_FORMAT(fact_passenger_summary.month, '%Y-%m') AS month,
-        SUM(fact_passenger_summary.total_passengers) AS total_trips,
-        ROW_NUMBER() OVER (PARTITION BY dim_city.city_name ORDER BY SUM(fact_passenger_summary.total_passengers) DESC) AS peak_rank,
-        ROW_NUMBER() OVER (PARTITION BY dim_city.city_name ORDER BY SUM(fact_passenger_summary.total_passengers) ASC) AS low_rank
-    FROM 
-        fact_passenger_summary
-    JOIN 
-        dim_city ON fact_passenger_summary.city_id = dim_city.city_id
-    GROUP BY 
-        dim_city.city_name, month
-)
-
-SELECT 
-    city_name,
-    month,
-    total_trips,
-    'Peak Demand' AS demand_type
-FROM 
-    RankedTrips
-WHERE 
-    peak_rank = 1
-
-UNION ALL
-
-SELECT 
-    city_name,
-    month,
-    total_trips,
-    'Low Demand' AS demand_type
-FROM 
-    RankedTrips
-WHERE 
-    low_rank = 1;
-```
-**Output**  
-| City          | Date       | Demand  | Type        |
-|---------------|------------|---------|-------------|
-| Jaipur        | 2024-02    | 12450   | Peak Demand |
-| Kochi         | 2024-04    | 6515    | Peak Demand |
-| Lucknow       | 2024-02    | 5188    | Peak Demand |
-|---------------|------------|---------|-------------|
-| Chandigarh    | 2024-04    | 3285    | Low Demand  |
-| Coimbatore    | 2024-05    | 1543    | Low Demand  |
-| Indore        | 2024-06    | 3152    | Low Demand  |
+### **Visuals**:
+- **Card Visuals** for KPIs (Total Trips, Total Passengers, Average Passenger Rating, Total Revenue).  
+  - Use contrasting colors for easy readability (e.g., green for positive growth KPIs, red for negative trends).
+- **Clustered Bar Chart**: *Trips by City*.  
+  **Axis**: City (dim_city[city_name])  
+  **Values**: Count of Trips (fact_trips[trip_id])
+- **Pie Chart**: *New vs. Repeat Passengers*.  
+  **Values**: New Passengers (fact_passenger_summary[new_passengers])  
+  Repeat Passengers (fact_passenger_summary[repeat_passengers])
 
 ---
 
-### 5. Weekend vs. Weekday Trip Demand by City
-```sql
-SELECT 
-    dim_city.city_name,
-    dim_date.day_type,
-    SUM(fact_passenger_summary.total_passengers) AS total_trips
-FROM 
-    fact_passenger_summary
-JOIN 
-    dim_city ON fact_passenger_summary.city_id = dim_city.city_id
-JOIN 
-    dim_date ON fact_passenger_summary.month = dim_date.start_of_month
-GROUP BY 
-    dim_city.city_name, dim_date.day_type;
-```
-**Output**  
-| City           | Day Type   | Count    |
-|----------------|------------|----------|
-| Lucknow        | Weekday    | 559872   |
-| Coimbatore     | Weekday    | 239973   |
-| Jaipur         | Weekday    | 1205236  |
-| Indore         | Weekday    | 479087   |
-| Kochi          | Weekday    | 741101   |
-|----------------|------------|----------|
-| Visakhapatnam  | Weekend    | 154430   |
+### **Steps**:
+1. Load data from `trips_db` and `targets_db` into Power BI.
+2. Create relationships between tables:
+   - `dim_city` → `city_id`
+   - `dim_date` → `date`
+   - `fact_passenger_summary` → `city_id` and `month`
+3. Use slicers for **City** and **Month** filtering.
 
 ---
 
-### 6. Repeat Passenger Frequency and City Contribution Analysis
-```sql
-SELECT 
-    dim_city.city_name,
-    dim_repeat_trip_distribution.trip_count,
-    SUM(dim_repeat_trip_distribution.repeat_passenger_count) AS repeat_passenger_count
-FROM 
-    dim_repeat_trip_distribution
-JOIN 
-    dim_city ON dim_repeat_trip_distribution.city_id = dim_city.city_id
-GROUP BY 
-    dim_city.city_name, dim_repeat_trip_distribution.trip_count
-ORDER BY 
-    SUM(dim_repeat_trip_distribution.repeat_passenger_count) DESC;
-```
-**Output**  
-| City           | Trip Count | Repeat Passenger Count |
-|----------------|------------|------------------------|
-| Jaipur         | 2-Trips    | 4855                   |
-| Kochi          | 2-Trips    | 3635                   |
-| Visakhapatnam  | 2-Trips    | 2618                   |
-| Indore         | 2-Trips    | 2478                   |
-| Jaipur         | 3-Trips    | 2007                   |
-|----------------|------------|------------------------|
-| Mysore         | 10-Trips   | 7                      |
+## **Page 2: City-wise Analysis**  
+### **Title**: *City Performance Overview*  
+**Subtitle**: *Detailed Insights Across All Cities*  
+
+#### **Keywords**: City, Performance, Metrics, Passengers, Ratings  
+
 ---
 
-### 7. Monthly Target Achievement Analysis for Key Metrics
-```sql
-SELECT 
-    dim_city.city_name,
-    dim_repeat_trip_distribution.trip_count,
-    SUM(dim_repeat_trip_distribution.repeat_passenger_count) AS repeat_passenger_count
-FROM 
-    trips_db.dim_repeat_trip_distribution
-JOIN 
-    trips_db.dim_city ON trips_db.dim_repeat_trip_distribution.city_id = trips_db.dim_city.city_id
-GROUP BY 
-    dim_city.city_name, dim_repeat_trip_distribution.trip_count
-ORDER BY 
-    repeat_passenger_count DESC
-LIMIT 1000;
-```
-**Output**  
-| City           | Trip Count | Repeat Passenger Count |
-|----------------|------------|------------------------|
-| Jaipur         | 2-Trips    | 4855                   |
-| Kochi          | 2-Trips    | 3635                   |
-| Visakhapatnam  | 2-Trips    | 2618                   |
-| Indore         | 2-Trips    | 2478                   |
-| Jaipur         | 3-Trips    | 2007                   |
-|----------------|------------|------------------------|
-| Mysore         | 10-Trips   | 7                      |
+### **KPIs**:
+1. **Total Trips by City**.  
+   **DAX**:  
+   ```DAX
+   Trips By City = COUNT(fact_trips[trip_id])
+   ```
+2. **Average Rating by City**.  
+   **DAX**:  
+   ```DAX
+   Avg Rating By City = CALCULATE(AVERAGE(fact_trips[passenger_rating]), ALLEXCEPT(dim_city, dim_city[city_name]))
+   ```
+3. **Total New Passengers by City**.  
+   **DAX**:  
+   ```DAX
+   New Passengers By City = SUM(fact_passenger_summary[new_passengers])
+   ```
+
 ---
 
-### 8. Highest and Lowest Repeat Passenger Rate (RPR%) by City and Month
-```sql
-SELECT 
-    dim_city.city_name,
-    dim_repeat_trip_distribution.trip_count,
-    SUM(dim_repeat_trip_distribution.repeat_passenger_count) AS repeat_passenger_count
-FROM 
-    trips_db.dim_repeat_trip_distribution
-JOIN 
-    trips_db.dim_city ON trips_db.dim_repeat_trip_distribution.city_id = trips_db.dim_city.city_id
-GROUP BY 
-    dim_city.city_name, dim_repeat_trip_distribution.trip_count
-ORDER BY 
-    repeat_passenger_count ASC
-LIMIT 1000;
-```
-**Output**  
-| City           | Trip Count | Repeat Passenger Count |
-|----------------|------------|------------------------|
-| Mysore         | 10-Trips   | 7                      |
-| Mysore         | 9-Trips    | 8                      |
-| Mysore         | 8-Trips    | 21                     |
-| Mysore         | 7-Trips    | 26                     |
-| Coimbatore     | 10-Trips   | 31                     |
-|----------------|------------|------------------------|
-| Jaipur         | 2-Trips    | 4855                   |
+### **Visuals**:
+- **Heatmap**: City-wise Trip Volume.  
+  - Use City on the rows and Months on the columns with a color gradient based on the trip count.
+- **Line Chart**: Trends of Repeat Passengers Over Months.  
+  **Axis**: Month  
+  **Values**: Repeat Passengers (fact_passenger_summary[repeat_passengers])
+- **Stacked Column Chart**: New vs. Repeat Passengers by City.  
+  **Axis**: City  
+  **Values**: New Passengers, Repeat Passengers
+
 ---
 
-### **Task 3: Dashboard Design**
-#### Tools: Power BI/Tableau
-- **Key Visuals**:
-   - **Bar Charts** for top/bottom cities.
-   - **Maps** to show geographical performance.
-   - **Line Charts** for seasonal demand trends.
-   - **Scatter Plots** for fare vs. trip distance.
-   - **KPI Cards** for metrics like average ratings.
-- **Interactivity**:
-   - Filters for city, month, and passenger type.
-   - Dynamic slicers for targets vs. actuals.
+## **Page 3: Target vs. Actuals**  
+### **Title**: *Performance vs. Targets*  
+**Subtitle**: *Achievement Metrics Across KPIs*
+
+#### **Keywords**: Targets, Achievement, Metrics, Comparison  
+
+---
+
+### **KPIs**:
+1. **Target Achievement % for Trips**.  
+   **DAX**:  
+   ```DAX
+   Trip Achievement % = 
+   DIVIDE(SUM(fact_trips[trip_id]), SUM(monthly_target_trips[total_target_trips])) * 100
+   ```
+2. **Target Achievement % for New Passengers**.  
+   **DAX**:  
+   ```DAX
+   New Passenger Achievement % = 
+   DIVIDE(SUM(fact_passenger_summary[new_passengers]), SUM(monthly_target_new_passengers[target_new_passengers])) * 100
+   ```
+3. **Gap in Average Ratings**.  
+   **DAX**:  
+   ```DAX
+   Rating Gap = 
+   AVERAGE(city_target_passenger_rating[target_avg_passenger_rating]) - 
+   AVERAGE(fact_trips[passenger_rating])
+   ```
+
+---
+
+### **Visuals**:
+- **Bar and Line Combo Chart**: *Target vs. Actual Trips*.  
+  **Bars**: Actual Trips (fact_trips[trip_id])  
+  **Lines**: Target Trips (monthly_target_trips[total_target_trips])
+- **Gauge Chart**: *Achievement Percentage for New Passengers*.  
+- **Clustered Bar Chart**: Ratings Gap by City.  
+
+---
+
+## **Page 4: Repeat Passenger Behavior**  
+### **Title**: *Repeat Passenger Insights*  
+**Subtitle**: *Behavior Patterns Across Cities and Months*  
+
+#### **Keywords**: Repeat, Behavior, Insights, Patterns  
+
+---
+
+### **KPIs**:
+1. **Top Cities with High Repeat Rates**.  
+   **DAX**:  
+   ```DAX
+   Repeat Rate = DIVIDE(SUM(fact_passenger_summary[repeat_passengers]), SUM(fact_passenger_summary[total_passengers])) * 100
+   ```
+2. **Repeat Passenger Trip Frequency Distribution** (1-10 trips).  
+
+---
+
+### **Visuals**:
+- **Histogram**: Repeat Passenger Trip Distribution.  
+  **Bins**: Trip Frequency (dim_repeat_trip_distribution[trip_count])  
+- **Bubble Chart**: Cities with High Repeat Rates vs. Total Trips.  
+
+---
+
+## **Page 5: Monthly Trends**  
+### **Title**: *Monthly Trends Overview*  
+**Subtitle**: *Passenger and Trip Trends by Month*  
+
+#### **Keywords**: Trends, Monthly, Analysis  
+
+---
+
+### **KPIs**:
+1. **Monthly Growth in Trips**.  
+   **DAX**:  
+   ```DAX
+   Monthly Trip Growth = 
+   DIVIDE(SUM(fact_trips[trip_id]) - 
+   CALCULATE(SUM(fact_trips[trip_id]), PREVIOUSMONTH(dim_date[date])), 
+   CALCULATE(SUM(fact_trips[trip_id]), PREVIOUSMONTH(dim_date[date]))) * 100
+   ```
+
+---
+
+### **Visuals**:
+- **Line Chart**: Trip Volume by Month.  
+- **Clustered Bar Chart**: Total Passengers by Month.  
+
+---
+
+### **Design Suggestions**:
+- **Color Palette**: Use teal, white, and light gray for a professional look. Highlight metrics with orange or green.  
+- **Slicers**: Add for Date, City, Passenger Type.  
+- **Buttons**: Add navigation buttons with keywords to link pages.
+
 
 ---
 
