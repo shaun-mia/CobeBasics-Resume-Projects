@@ -447,7 +447,6 @@ LIMIT 1000;
 - **Interactivity**:
    - Filters for city, month, and passenger type.
    - Dynamic slicers for targets vs. actuals.
-   - 
 
 # Good Cabs Performance Analysis Dashboard
 
