@@ -437,7 +437,7 @@ LIMIT 1000;
 ---
 
 ### **Task 3: Dashboard Design**
-#### Tools: Power BI/Tableau
+#### Tools: Power BI
 - **Key Visuals**:
    - **Bar Charts** for top/bottom cities.
    - **Maps** to show geographical performance.
