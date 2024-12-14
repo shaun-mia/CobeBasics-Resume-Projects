@@ -477,16 +477,16 @@ The dashboard consists of six main pages:
    - **Subtitle**: Welcome to the Good Cabs Performance Dashboard
    - **Description**: The Home page provides a summary of the entire dashboard with key metrics at a glance. This page includes navigation links to all other pages, ensuring easy access to different insights.
 
-Here is a comprehensive step-by-step guide to designing a **Power BI Dashboard** for the Goodcabs project. Each step is broken down into **pages**, **KPIs**, **DAX formulas**, **visuals**, **custom columns** (if necessary), and overall design suggestions.
+![image](https://github.com/user-attachments/assets/c6d01e00-1360-4540-a0d2-43286417d67f)
 
 ---
 
 ## **Page 1: Overview Dashboard**
 ### **Title**: *Company Performance Overview*  
 **Subtitle**: *Summary of Key Metrics and Insights*
-
-#### **Keywords**: Overview, Summary, KPIs, Growth, Performance  
 (Use these keywords to create navigation buttons to other pages.)
+
+![image](https://github.com/user-attachments/assets/5d4e4db8-007f-4f7b-b688-03640a5accb5)
 
 ---
 
@@ -540,7 +540,7 @@ Here is a comprehensive step-by-step guide to designing a **Power BI Dashboard**
 ### **Title**: *City Performance Overview*  
 **Subtitle**: *Detailed Insights Across All Cities*  
 
-#### **Keywords**: City, Performance, Metrics, Passengers, Ratings  
+![image](https://github.com/user-attachments/assets/98f1900a-cfeb-4129-9e75-796507aed9fe)
 
 ---
 
@@ -579,7 +579,7 @@ Here is a comprehensive step-by-step guide to designing a **Power BI Dashboard**
 ### **Title**: *Performance vs. Targets*  
 **Subtitle**: *Achievement Metrics Across KPIs*
 
-#### **Keywords**: Targets, Achievement, Metrics, Comparison  
+![image](https://github.com/user-attachments/assets/b81f694e-3a61-4e4b-8ce6-936f3aa28d17)
 
 ---
 
@@ -619,7 +619,7 @@ Here is a comprehensive step-by-step guide to designing a **Power BI Dashboard**
 ### **Title**: *Repeat Passenger Insights*  
 **Subtitle**: *Behavior Patterns Across Cities and Months*  
 
-#### **Keywords**: Repeat, Behavior, Insights, Patterns  
+![image](https://github.com/user-attachments/assets/d537842b-6ed2-4d4d-ad95-3745654c625f)
 
 ---
 
@@ -642,9 +642,8 @@ Here is a comprehensive step-by-step guide to designing a **Power BI Dashboard**
 
 ## **Page 5: Monthly Trends**  
 ### **Title**: *Monthly Trends Overview*  
-**Subtitle**: *Passenger and Trip Trends by Month*  
-
-#### **Keywords**: Trends, Monthly, Analysis  
+**Subtitle**: *Passenger and Trip Trends by Month*   
+![image](https://github.com/user-attachments/assets/bb9b71bb-572d-4f14-adb6-9bb9c9c4c166)
 
 ---
 
@@ -663,15 +662,6 @@ Here is a comprehensive step-by-step guide to designing a **Power BI Dashboard**
 ### **Visuals**:
 - **Line Chart**: Trip Volume by Month.  
 - **Clustered Bar Chart**: Total Passengers by Month.  
-
----
-
-### **Design Suggestions**:
-- **Color Palette**: Use teal, white, and light gray for a professional look. Highlight metrics with orange or green.  
-- **Slicers**: Add for Date, City, Passenger Type.  
-- **Buttons**: Add navigation buttons with keywords to link pages.
-
-
 ---
 
 
@@ -1034,7 +1024,7 @@ ORDER BY
 
 ---
 
-### **Additional: LinkedIn Post**
+### **Additional: [LinkedIn Post](https://www.linkedin.com/in/shaun-mia)**
 #### Structure:
 1. **Opening**: “Just completed an exciting project analyzing operational data for Goodcabs 🚖.”
 2. **Details**: Share objectives, tools, and outcomes.
