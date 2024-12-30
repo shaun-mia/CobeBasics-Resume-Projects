@@ -410,30 +410,133 @@ LIMIT 1000;
 
 ### 8. Highest and Lowest Repeat Passenger Rate (RPR%) by City and Month
 ```sql
+WITH RPR_Calculation AS (
+    SELECT 
+        fps.city_id,
+        dc.city_name, 
+        fps.month,  -- Using the existing 'month' column
+        fps.repeat_passengers,
+        fps.total_passengers,
+        (fps.repeat_passengers / fps.total_passengers) * 100 AS RPR_percent
+    FROM 
+        fact_passenger_summary fps
+    LEFT JOIN 
+        trips_db.dim_city dc ON fps.city_id = dc.city_id
+    WHERE 
+        fps.total_passengers > 0
+),
+-- Calculate total RPR_percent per city
+City_RPR AS (
+    SELECT 
+        city_id, 
+        city_name,
+        SUM(RPR_percent) AS total_RPR
+    FROM 
+        RPR_Calculation
+    GROUP BY 
+        city_id, city_name
+)
+-- Pivot the data by month and add total and rank columns
 SELECT 
-    dim_city.city_name,
-    dim_repeat_trip_distribution.trip_count,
-    SUM(dim_repeat_trip_distribution.repeat_passenger_count) AS repeat_passenger_count
+    r.city_id, 
+    r.city_name,
+    -- Using conditional aggregation to create columns for each month
+    MAX(CASE WHEN MONTH(STR_TO_DATE(r.month, '%Y-%m-%d')) = 1 THEN r.RPR_percent ELSE NULL END) AS Jan,
+    MAX(CASE WHEN MONTH(STR_TO_DATE(r.month, '%Y-%m-%d')) = 2 THEN r.RPR_percent ELSE NULL END) AS Feb,
+    MAX(CASE WHEN MONTH(STR_TO_DATE(r.month, '%Y-%m-%d')) = 3 THEN r.RPR_percent ELSE NULL END) AS Mar,
+    MAX(CASE WHEN MONTH(STR_TO_DATE(r.month, '%Y-%m-%d')) = 4 THEN r.RPR_percent ELSE NULL END) AS Apr,
+    MAX(CASE WHEN MONTH(STR_TO_DATE(r.month, '%Y-%m-%d')) = 5 THEN r.RPR_percent ELSE NULL END) AS May,
+    MAX(CASE WHEN MONTH(STR_TO_DATE(r.month, '%Y-%m-%d')) = 6 THEN r.RPR_percent ELSE NULL END) AS Jun,
+    -- Total RPR for the city across all months
+    c.total_RPR,
+    -- Top 2 or Bottom 2 based on total RPR
+    CASE 
+        WHEN RANK() OVER (ORDER BY c.total_RPR DESC) <= 2 THEN 'Top'
+        WHEN RANK() OVER (ORDER BY c.total_RPR ASC) <= 2 THEN 'Bottom'
+        ELSE NULL
+    END AS RPR_Category
 FROM 
-    trips_db.dim_repeat_trip_distribution
+    RPR_Calculation r
 JOIN 
-    trips_db.dim_city ON trips_db.dim_repeat_trip_distribution.city_id = trips_db.dim_city.city_id
+    City_RPR c ON r.city_id = c.city_id
 GROUP BY 
-    dim_city.city_name, dim_repeat_trip_distribution.trip_count
+    r.city_id, r.city_name, c.total_RPR
 ORDER BY 
-    repeat_passenger_count ASC
-LIMIT 1000;
+    c.total_RPR DESC;
+
 ```
 **Output**  
-| City           | Trip Count | Repeat Passenger Count |
-|----------------|------------|------------------------|
-| Mysore         | 10-Trips   | 7                      |
-| Mysore         | 9-Trips    | 8                      |
-| Mysore         | 8-Trips    | 21                     |
-| Mysore         | 7-Trips    | 26                     |
-| Coimbatore     | 10-Trips   | 31                     |
-|----------------|------------|------------------------|
-| Jaipur         | 2-Trips    | 4855                   |
+
+| city_id | city_name     | Jan    | Feb    | Mar    | Apr    | May    | Jun    | total_RPR | RPR_Category |
+|---------|---------------|--------|--------|--------|--------|--------|--------|-----------|--------------|
+| GJ01    | Surat         | 32.7434| 36.8096| 43.4302| 45.6983| 49.9223| 49.1749| 257.7787  | Top          |
+| UP01    | Lucknow       | 29.2279| 31.9776| 33.9260| 39.2960| 47.6627| 46.7009| 228.7911  | Top          |
+| MP01    | Indore        | 26.6512| 27.7066| 28.4633| 35.5184| 43.5255| 35.8820| 197.7470  |              |
+| GJ02    | Vadodara      | 20.6608| 22.1335| 30.0952| 34.4938| 38.4752| 38.9043| 184.7628  |              |
+| AP01    | Visakhapatnam | 20.5501| 24.9211| 29.8416| 34.9665| 32.9066| 29.6817| 172.8676  |              |
+| TN01    | Coimbatore    | 17.7055| 17.3608| 21.7303| 27.8746| 32.6636| 24.6929| 142.0277  |              |
+| KL01    | Kochi         | 14.0459| 18.7081| 21.6964| 24.1903| 29.7814| 25.8374| 134.2595  |              |
+| CH01    | Chandigarh    | 15.5172| 17.2080| 21.2683| 24.0183| 26.1963| 26.2966| 130.5047  |              |
+| RJ01    | Jaipur        | 12.0051| 13.3414| 19.8768| 22.0978| 25.6761| 16.9781| 109.9753  | Bottom       |
+| KA01    | Mysore        | 8.0789 | 7.9913 | 9.4804 | 11.3900| 15.3744| 14.9342| 67.2492   | Bottom       |
+
+
+```sql
+-- Calculate Repeat Passenger Rate (RPR%) by Month
+WITH Monthly_RPR AS (
+SELECT 
+ fps.month,
+        
+ DATE_FORMAT(fps.month,
+        '%M') AS month_name,
+        -- Adding month_name
+ SUM(fps.repeat_passengers) AS total_repeat_passengers,
+        
+ SUM(fps.total_passengers) AS total_passengers,
+        
+ (SUM(fps.repeat_passengers) / SUM(fps.total_passengers)) * 100 AS RPR_percent
+
+    FROM 
+ fact_passenger_summary fps
+
+    GROUP BY  
+ fps.month
+)
+-- Identify Highest
+        AND Lowest Months
+SELECT 
+ month,
+        
+ month_name,
+        -- Display month_name
+ RPR_percent,
+        
+ 
+    CASE 
+
+    WHEN RANK()
+    OVER (ORDER BY RPR_percent DESC) = 1 THEN
+    'Highest'
+
+    WHEN RANK()
+    OVER (ORDER BY RPR_percent ASC) = 1 THEN
+    'Lowest'
+
+    ELSE NULL
+
+    END AS RPR_Category
+FROM 
+ Monthly_RPR;
+```
+**Output**  
+| month         | month_name   | RPR_percent | RPR_Category |
+|---------------|--------------|-------------|--------------|
+| 2024-01-01    | January      | 18.6761     | Lowest       |
+| 2024-02-01    | February     | 20.8271     |              |
+| 2024-03-01    | March        | 25.5665     |              |
+| 2024-04-01    | April        | 29.2642     |              |
+| 2024-06-01    | June         | 29.7575     |              |
+| 2024-05-01    | May          | 33.4727     | Highest      |
 ---
 
 ### **Task 3: Dashboard Design**
