@@ -381,31 +381,48 @@ ORDER BY
 ---
 
 ### 7. Monthly Target Achievement Analysis for Key Metrics
+
+
+- Passenger Rating Achievement Analysis 
 ```sql
 SELECT 
-    dim_city.city_name,
-    dim_repeat_trip_distribution.trip_count,
-    SUM(dim_repeat_trip_distribution.repeat_passenger_count) AS repeat_passenger_count
+    c.city_name AS City,  -- Shortened city name column
+    tgt.target_avg_passenger_rating AS Target_Rating,  -- Shortened target average passenger rating column
+    AVG(f.passenger_rating) AS Actual_Rating,  -- Shortened actual average passenger rating column
+    (AVG(f.passenger_rating) / tgt.target_avg_passenger_rating) * 100 AS Achievement_Rate,  -- Shortened achievement rate column
+    CASE 
+        WHEN (AVG(f.passenger_rating) / tgt.target_avg_passenger_rating) * 100 >= 100 THEN 'Exceeded'  -- If achievement rate is >= 100%, it's exceeded
+        WHEN (AVG(f.passenger_rating) / tgt.target_avg_passenger_rating) * 100 = 100 THEN 'Achieved'   -- If achievement rate is exactly 100%, it's achieved
+        ELSE 'Missed'  -- If achievement rate is < 100%, it's missed
+    END AS Status  -- Shortened achievement status column
 FROM 
-    trips_db.dim_repeat_trip_distribution
+    targets_db.city_target_passenger_rating tgt
 JOIN 
-    trips_db.dim_city ON trips_db.dim_repeat_trip_distribution.city_id = trips_db.dim_city.city_id
+    trips_db.fact_trips f ON tgt.city_id = f.city_id
+JOIN 
+    trips_db.dim_city c ON f.city_id = c.city_id  -- Joining with dim_city to get city names
+WHERE 
+    f.date BETWEEN '2024-01-01' AND '2024-06-30'  -- Filtering by the first half of 2024
 GROUP BY 
-    dim_city.city_name, dim_repeat_trip_distribution.trip_count
+    c.city_name, tgt.target_avg_passenger_rating
 ORDER BY 
-    repeat_passenger_count DESC
-LIMIT 1000;
+    Achievement_Rate DESC;  -- Ordering by Achievement Rate in descending order
+
 ```
 **Output**  
-| City           | Trip Count | Repeat Passenger Count |
-|----------------|------------|------------------------|
-| Jaipur         | 2-Trips    | 4855                   |
-| Kochi          | 2-Trips    | 3635                   |
-| Visakhapatnam  | 2-Trips    | 2618                   |
-| Indore         | 2-Trips    | 2478                   |
-| Jaipur         | 3-Trips    | 2007                   |
-|----------------|------------|------------------------|
-| Mysore         | 10-Trips   | 7                      |
+| **City**        | **Target Avg Passenger Rating** | **Actual Avg Passenger Rating** | **Achievement Rate** | **Status** |
+|-----------------|----------------------------------|----------------------------------|-----------------------|------------|
+| Jaipur          | 8.25                             | 8.5838                           | 104.05%               | Exceeded   |
+| Mysore          | 8.50                             | 8.7011                           | 102.37%               | Exceeded   |
+| Kochi           | 8.50                             | 8.5162                           | 100.19%               | Exceeded   |
+| Chandigarh      | 8.00                             | 7.9766                           | 99.71%                | Missed     |
+| Visakhapatnam   | 8.50                             | 8.4329                           | 99.21%                | Missed     |
+| Indore          | 8.00                             | 7.8282                           | 97.85%                | Missed     |
+| Coimbatore      | 8.25                             | 7.8831                           | 95.55%                | Missed     |
+| Surat           | 7.00                             | 6.4171                           | 91.67%                | Missed     |
+| Lucknow         | 7.25                             | 6.4894                           | 89.51%                | Missed     |
+| Vadodara        | 7.50                             | 6.6113                           | 88.15%                | Missed     |
+
 ---
 
 ### 8. Highest and Lowest Repeat Passenger Rate (RPR%) by City and Month
@@ -706,7 +723,6 @@ The dashboard consists of six main pages:
    AVERAGE(city_target_passenger_rating[target_avg_passenger_rating]) - 
    AVERAGE(fact_trips[passenger_rating])
    ```
-
 ---
 
 ### **Visuals**:
