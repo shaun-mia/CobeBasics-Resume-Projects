@@ -1,7 +1,7 @@
 city_name,total_trips,performance
-Jaipur,55538,"Top 3"
-Kochi,34042,"Top 3"
-Lucknow,25857,"Top 3"
-Coimbatore,11065,"Bottom 3"
-Mysore,13158,"Bottom 3"
-Vadodara,14473,"Bottom 3"
+Jaipur,77888,Top 3
+Lucknow,64299,Top 3
+Surat,54843,Top 3
+Visakhapatnam,28336,Bottom 3
+Coimbatore,21104,Bottom 3
+Mysore,16238,Bottom 3

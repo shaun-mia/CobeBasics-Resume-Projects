@@ -1,0 +1,11 @@
+City,Target_Rating,Actual_Rating,Achievement_Rate,Status
+Jaipur,8.25,8.5838,104.0466574,Exceeded
+Mysore,8.5,8.7011,102.3655478,Exceeded
+Kochi,8.5,8.5162,100.1905018,Exceeded
+Chandigarh,8,7.9766,99.70754983,Missed
+Visakhapatnam,8.5,8.4329,99.21115171,Missed
+Indore,8,7.8282,97.85248256,Missed
+Coimbatore,8.25,7.8831,95.55218599,Missed
+Surat,7,6.4171,91.67259267,Missed
+Lucknow,7.25,6.4894,89.5089804,Missed
+Vadodara,7.5,6.6113,88.15004475,Missed
