@@ -1,4 +1,6 @@
 # GoodCabs Analysis
+![Good cabs Performance analysis](https://github.com/user-attachments/assets/9166e9f9-206b-4e78-b4ac-211e3e447d82)
+
 
 ## Domain: Transportation and Mobility  
 **Function**: Operation  
@@ -597,17 +599,12 @@ The dashboard consists of six main pages:
    - **Subtitle**: Welcome to the Good Cabs Performance Dashboard
    - **Description**: The Home page provides a summary of the entire dashboard with key metrics at a glance. This page includes navigation links to all other pages, ensuring easy access to different insights.
 
-![image](https://github.com/user-attachments/assets/c6d01e00-1360-4540-a0d2-43286417d67f)
-
 ---
 
 ## **Page 1: Overview Dashboard**
 ### **Title**: *Company Performance Overview*  
 **Subtitle**: *Summary of Key Metrics and Insights*
 (Use these keywords to create navigation buttons to other pages.)
-
-![image](https://github.com/user-attachments/assets/5d4e4db8-007f-4f7b-b688-03640a5accb5)
-
 ---
 
 ### **KPIs**:
@@ -660,8 +657,6 @@ The dashboard consists of six main pages:
 ### **Title**: *City Performance Overview*  
 **Subtitle**: *Detailed Insights Across All Cities*  
 
-![image](https://github.com/user-attachments/assets/98f1900a-cfeb-4129-9e75-796507aed9fe)
-
 ---
 
 ### **KPIs**:
@@ -698,8 +693,6 @@ The dashboard consists of six main pages:
 ## **Page 3: Target vs. Actuals**  
 ### **Title**: *Performance vs. Targets*  
 **Subtitle**: *Achievement Metrics Across KPIs*
-
-![image](https://github.com/user-attachments/assets/b81f694e-3a61-4e4b-8ce6-936f3aa28d17)
 
 ---
 
@@ -738,8 +731,6 @@ The dashboard consists of six main pages:
 ### **Title**: *Repeat Passenger Insights*  
 **Subtitle**: *Behavior Patterns Across Cities and Months*  
 
-![image](https://github.com/user-attachments/assets/d537842b-6ed2-4d4d-ad95-3745654c625f)
-
 ---
 
 ### **KPIs**:
@@ -762,8 +753,6 @@ The dashboard consists of six main pages:
 ## **Page 5: Monthly Trends**  
 ### **Title**: *Monthly Trends Overview*  
 **Subtitle**: *Passenger and Trip Trends by Month*   
-![image](https://github.com/user-attachments/assets/bb9b71bb-572d-4f14-adb6-9bb9c9c4c166)
-
 ---
 
 ### **KPIs**:
@@ -1142,14 +1131,20 @@ ORDER BY
 7. **Conclusion**: Summarize insights and next steps.
 
 ---
+### **Connect with Me**  
+[![LinkedIn](https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/posts/shaun-mia_powerbi-dataanalytics-sql-activity-7280308051507601408-L0UC?utm_source=share&utm_medium=member_desktop)  
+[![YouTube](https://img.shields.io/badge/-YouTube-red?style=flat&logo=youtube&logoColor=white)]([YOUR_YOUTUBE_LINK](https://youtu.be/GbiYsTOGn78?si=55nj9bgU4peBhzC9))
 
-### **Additional: [LinkedIn Post](https://www.linkedin.com/in/shaun-mia)**
-#### Structure:
-1. **Opening**: “Just completed an exciting project analyzing operational data for Goodcabs 🚖.”
-2. **Details**: Share objectives, tools, and outcomes.
-3. **Media**: Include a screenshot of the dashboard and link to the video presentation.
-4. **Reflection**: “This experience enhanced my skills in SQL, Power BI, and presenting actionable insights.”
-5. **CTA**: “Let me know your thoughts or suggestions!”
+## **Structure**  
+
+- 📂 **Ad_hoc_req_SQL**  
+- 📂 **Dashboard**  
+- 📂 **Using Icon**  
+- 📂 **primary&secondary_questions_Analysis_Using_SQL**  
+- 📄 **Additional Documentations.pdf**  
+- 📄 **Good Cabs Performance Analysis.pptx**  
+- 📄 **README.md**
+
 
 
 # Author Information
@@ -1158,7 +1153,6 @@ ORDER BY
 📍 Mirpur-1, Dhaka, Bangladesh  
 
 ### Contact Information:
-- 📱 **Phone**: [01976733731](tel:+8801976733731)
 - ✉️ **Email**: [shaunmia.cse@gmail.com](mailto:shaunmia.cse@gmail.com)
 - 💻 **GitHub**: [https://github.com/shaun-mia](https://github.com/shaun-mia)
 - 🔗 **LinkedIn**: [https://www.linkedin.com/in/shaun-mia](https://www.linkedin.com/in/shaun-mia)
