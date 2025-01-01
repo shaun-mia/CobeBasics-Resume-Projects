@@ -1133,7 +1133,7 @@ ORDER BY
 ---
 ### **Additional**  
 [![LinkedIn](https://img.shields.io/badge/-LinkedIn-blue?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/posts/shaun-mia_powerbi-dataanalytics-sql-activity-7280308051507601408-L0UC?utm_source=share&utm_medium=member_desktop)  
-[![YouTube](https://img.shields.io/badge/-YouTube-red?style=flat&logo=youtube&logoColor=white)]([YOUR_YOUTUBE_LINK](https://youtu.be/GbiYsTOGn78?si=55nj9bgU4peBhzC9))
+[![YouTube](https://img.shields.io/badge/-YouTube-red?style=flat&logo=youtube&logoColor=white)]((https://youtu.be/GbiYsTOGn78?si=55nj9bgU4peBhzC9))
 
 ## **Structure**  
 
